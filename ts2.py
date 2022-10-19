@@ -1,32 +1,42 @@
-import socket
-import sys
-
+# Mappings
 DNS_table = {}
+
+# Mapping Value Indices
+ORG_HOSTNAME = 0
+IP_ADDRESS = 1
+RECORD_TYPE = 2
 
 
 def readFile():
     file = open("PROJ2-DNSTS2.txt", "r")
     Lines = file.readlines()
 
-    # adding values to table
+    # adding values to DNS_table
     for line in Lines:
         query = line.strip()
         split_query = query.split(' ')
-        hostname = split_query[0].lower()
+
+        org_hostname = split_query[0]
+        key_hostname = split_query[0].lower()
         ip_address = split_query[1]
-        DNS_table[hostname] = ip_address
+        record_type = 'A'
+
+        DNS_table[key_hostname] = org_hostname, ip_address, record_type
 
     file.close()
 
 
-def is_host_in_DNS_table(hostname):
-    if hostname in DNS_table.keys():
-        return True
-    else:
-        return False
+def host_lookup(hostname):
+    try:
+        return DNS_table[hostname]
+    except KeyError:
+        return -1
 
 
 def main():
+    # Read mappings
+    readFile()
+    
     try:
         ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('[S]: TS1 Server socket created')
