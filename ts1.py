@@ -1,7 +1,13 @@
 import socket
 import sys
 
+# Mappings
 DNS_table = {}
+
+# Mapping Value Indices
+ORG_HOSTNAME = 0
+IP_ADDRESS = 1
+RECORD_TYPE = 2
 
 
 def readFile():
@@ -12,25 +18,29 @@ def readFile():
     for line in Lines:
         query = line.strip()
         split_query = query.split(' ')
-        hostname = split_query[0].lower()
+
+        org_hostname = split_query[0]
+        key_hostname = split_query[0].lower()
         ip_address = split_query[1]
-        DNS_table[hostname] = ip_address
+        record_type = 'A'
+
+        DNS_table[key_hostname] = org_hostname, ip_address, record_type
 
     file.close()
 
 
 def host_lookup(hostname):
-    if hostname in DNS_table.keys():
+    try:
         return DNS_table[hostname]
-    else:
+    except KeyError:
         return -1
 
 
-def send_message():
-    return
-
-
 def main():
+    # Read mappings
+    readFile()
+
+    # Create TS socket
     try:
         ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('[S]: TS1 Server socket created')
