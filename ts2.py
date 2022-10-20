@@ -1,3 +1,6 @@
+import socket
+import sys
+
 # Mappings
 DNS_table = {}
 
@@ -26,6 +29,10 @@ def readFile():
     file.close()
 
 
+# Search DNS Table for specific hostname and return corresponding tuple if exists
+# Format: DomainName IPaddress A IN
+
+
 def host_lookup(hostname):
     try:
         return DNS_table[hostname.lower()]
@@ -43,7 +50,7 @@ def main():
     # Read mappings
     readFile()
     
-    # Create TS socket
+    # Create TS socket for communicating with LS
     try:
         ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('[S2]: TS2 Server socket created')

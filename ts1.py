@@ -28,6 +28,7 @@ def readFile():
 
     file.close()
 
+
 # Search DNS Table for specific hostname and return corresponding tuple if exists
 # Format: DomainName IPaddress A IN
 
