@@ -28,10 +28,15 @@ def readFile():
 
     file.close()
 
+# Search DNS Table for specific hostname and return corresponding tuple if exists
+# Format: DomainName IPaddress A IN
+
 
 def host_lookup(hostname):
     try:
-        return DNS_table[hostname]
+        msg = str(DNS_table[hostname][ORG_HOSTNAME]) + " " + str(
+            DNS_table[hostname][IP_ADDRESS]) + " " + str(DNS_table[hostname][RECORD_TYPE])
+        return msg
     except KeyError:
         return -1
 
@@ -40,7 +45,7 @@ def main():
     # Read mappings
     readFile()
 
-    # Create TS socket
+    # Create TS socket for communicating with LS
     try:
         ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('[S]: TS1 Server socket created')
@@ -50,7 +55,7 @@ def main():
 
     # Define the port on which you want to connect to the server
     hostname = socket.gethostname()
-    localhost_addr = socket.gethostbyname(socket.gethostname())
+    localhost_addr = socket.gethostbyname(hostname)
 
     # Connect to the server on local machine
     port = int(sys.argv[1])
@@ -60,7 +65,6 @@ def main():
 
     # Accept a client
     csockid, addr = ss.accept()
-    print()
     print("[S]: Got a connection, client is at {}".format(addr))
 
 
