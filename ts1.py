@@ -84,6 +84,9 @@ def main():
         if not host_value == -1:
             response = create_response(host_value)
             csockid.send(reversed_msg.encode('utf-8'))
+    
+    ss.close()
+    exit()
 
 
 if __name__ == "__main__":
