@@ -17,7 +17,7 @@ def read_queries():
 if __name__=='__main__':
     # Read queries from file
     read_queries()
-    
+
     # Create client socket for communicating with LS
     try:
         cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,12 +34,9 @@ if __name__=='__main__':
     server_binding = (localhost_addr, port)
     cs.connect(server_binding)
 
-    print(queries)
-
     # process and store queries
     with open('RESOLVED.txt', 'w') as file:
         for query in queries:
-            print('Sending')
             # send a hostname query to the server
             cs.send(query.encode('utf-8'))
 
