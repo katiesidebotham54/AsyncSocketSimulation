@@ -19,10 +19,10 @@ def readFile():
         query = line.strip()
         split_query = query.split(' ')
 
-        org_hostname = split_query[0]
-        key_hostname = split_query[0].lower()
-        ip_address = split_query[1]
-        record_type = 'A'
+        org_hostname = split_query[ORG_HOSTNAME]
+        key_hostname = split_query[ORG_HOSTNAME].lower()
+        ip_address = split_query[IP_ADDRESS]
+        record_type = split_query[RECORD_TYPE]
 
         DNS_table[key_hostname] = org_hostname, ip_address, record_type
 
@@ -42,8 +42,9 @@ def host_lookup(hostname):
 
 def create_response(query_value):
     response = '{} {} {} IN'.format(query_value[ORG_HOSTNAME],
-                                    query_value[IP_ADDRESS,
-                                    query_value[RECORD_TYPE]])
+                                    query_value[IP_ADDRESS],
+                                    query_value[RECORD_TYPE])
+    return response
 
 
 def main():
@@ -87,7 +88,7 @@ def main():
         # Send value if exists
         if not host_value == -1:
             response = create_response(host_value)
-            csockid.send(reversed_msg.encode('utf-8'))
+            csockid.send(response.encode('utf-8'))
 
     ss.close()
     exit()
