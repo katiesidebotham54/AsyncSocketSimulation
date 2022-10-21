@@ -15,6 +15,10 @@ def read_queries():
 
 
 if __name__=='__main__':
+    # Read queries from file
+    read_queries()
+    
+    # Create client socket for communicating with LS
     try:
         cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("[C]: Client socket created")
@@ -23,16 +27,19 @@ if __name__=='__main__':
         exit()
 
     # Defining the port to connect to the load balancing server
-    localhost_addr = sys.argv[1]
-    port = sys.argv[2]
+    localhost_addr = str(sys.argv[1])
+    port = int(sys.argv[2])
 
     # connect to the server
     server_binding = (localhost_addr, port)
     cs.connect(server_binding)
 
+    print(queries)
+
     # process and store queries
     with open('RESOLVED.txt', 'w') as file:
         for query in queries:
+            print('Sending')
             # send a hostname query to the server
             cs.send(query.encode('utf-8'))
 
