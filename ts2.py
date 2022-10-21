@@ -88,6 +88,7 @@ def main():
         # Send value if exists
         if not host_value == -1:
             response = create_response(host_value)
+            print("[S2]: Data sent back: {}".format(response))
             csockid.send(response.encode('utf-8'))
 
     ss.close()
